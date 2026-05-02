@@ -53,22 +53,16 @@ summary::-webkit-details-marker{display:none}
 .page.active{display:block}
 
 /* ═══════════════════════════════════════════════════════
-   DATE STRIP
+   MASTHEAD (logo in nav)
 ═══════════════════════════════════════════════════════ */
-.date-strip{background:#fafaf7;border-bottom:1px solid #ececea;padding:8px 36px;display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:#5a5a60}
-
-/* ═══════════════════════════════════════════════════════
-   MASTHEAD
-═══════════════════════════════════════════════════════ */
-.masthead{padding:32px 36px 0;border-bottom:1px solid #ececea;text-align:center}
-.masthead-logo{font-size:56px;line-height:1;letter-spacing:-2.4px;font-weight:500;color:#111114;cursor:pointer;background:none;border:none;font-family:'Inter',sans-serif}
+.masthead-logo{font-size:26px;line-height:1;letter-spacing:-1px;font-weight:500;color:#111114;cursor:pointer;background:none;border:none;font-family:'Inter',sans-serif;flex-shrink:0}
 .masthead-dot{color:#2b4cff}
-.masthead-sub{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2.4px;text-transform:uppercase;color:#7a7a82;margin-top:6px;padding-bottom:22px}
 
 /* ═══════════════════════════════════════════════════════
    NAV
 ═══════════════════════════════════════════════════════ */
-.nav{padding:14px 36px;border-bottom:1px solid #ececea;display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);position:sticky;top:0;z-index:200}
+.nav{padding:14px 36px;border-bottom:1px solid #ececea;display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);position:sticky;top:0;z-index:200}
+.nav-left{display:flex;align-items:center;gap:40px}
 .nav-links{display:flex;gap:36px}
 .nav-btn{font-size:13px;font-weight:500;letter-spacing:.3px;color:#7a7a82;border:none;border-bottom:2px solid transparent;padding-bottom:4px;transition:color .15s,border-color .15s;background:none;font-family:'Inter',sans-serif;cursor:pointer}
 .nav-btn:hover{color:#111114}
@@ -101,14 +95,25 @@ summary::-webkit-details-marker{display:none}
 .cover-caption{position:absolute;left:36px;bottom:100px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.85)}
 .cover-hl{position:absolute;left:36px;bottom:36px;color:#fff;max-width:760px}
 .cover-badge{position:absolute;right:24px;top:24px;background:#fff;color:#111114;padding:8px 14px;font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.5px;text-transform:uppercase;border-radius:4px}
+.cover-h2{font-size:clamp(15px,1.4vw,22px);font-weight:400;letter-spacing:-.2px;color:rgba(255,255,255,.82);margin-top:10px;font-family:'Inter',sans-serif;max-width:520px;line-height:1.4}
+.hero-cta{margin-top:20px;display:inline-flex;align-items:center;gap:10px;background:#2b4cff;color:#fff;padding:12px 22px;font-size:13px;font-weight:500;letter-spacing:.2px;border-radius:999px;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s}
+.hero-cta:hover{background:#1a38e0}
 
 /* Standfirst */
-.standfirst{display:grid;grid-template-columns:2fr 3fr 1fr;gap:36px;padding:24px 0 56px}
+.standfirst{display:grid;grid-template-columns:2fr 3fr;gap:40px;padding:24px 0 56px}
 .sf-body{column-count:2;column-gap:28px;font-size:14px;line-height:1.65;text-align:justify;hyphens:auto;color:#2a2a30}
 .sf-body p+p{margin-top:1em}
 .sf-toc{border-left:1px solid #ececea;padding-left:16px;font-size:12px;line-height:1.6;color:#2a2a30}
 .toc-row{display:flex;gap:12px;margin-top:6px}
 .toc-pn{font-family:'JetBrains Mono',monospace;color:#7a7a82}
+
+/* Selected work section heading */
+.work-section-hdr{padding:56px 36px 0}
+.work-section-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#2b4cff;margin-bottom:14px}
+.work-section-title{font-size:clamp(36px,4.5vw,72px);font-weight:500;letter-spacing:-2px;color:#111114;line-height:1;margin-bottom:10px}
+.work-section-title em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#2b4cff}
+.work-section-sub{font-size:15px;color:#7a7a82;letter-spacing:-.1px;font-family:'Inter',sans-serif;margin-bottom:0}
+.work-section-rule{height:1px;background:linear-gradient(90deg,#2b4cff 0%,#ececea 40%);margin-top:28px}
 
 /* Feature spreads */
 .spread{padding:40px 36px 60px;border-top:1px solid #ececea}
@@ -333,7 +338,6 @@ details[open] .faq-plus{transform:rotate(45deg)}
 ═══════════════════════════════════════════════════════ */
 @media (max-width:1024px){
   .standfirst{grid-template-columns:1fr 1fr;gap:28px}
-  .sf-toc{display:none}
   .thumbs{grid-template-columns:1fr 1fr;gap:12px}
   .thumb:nth-child(4){display:none}
   .phases{grid-template-columns:1fr 1fr}
@@ -352,20 +356,13 @@ details[open] .faq-plus{transform:rotate(45deg)}
    RESPONSIVE — mobile (≤ 768px)
 ═══════════════════════════════════════════════════════ */
 @media (max-width:768px){
-  /* Date strip: keep only first item */
-  .date-strip{padding:8px 20px}
-  .date-strip span:nth-child(2),.date-strip span:nth-child(3){display:none}
-
-  /* Masthead */
-  .masthead{padding:20px 20px 0}
-  .masthead-logo{font-size:38px;letter-spacing:-1.6px}
-  .masthead-sub{font-size:9px;letter-spacing:1.2px}
-
   /* Nav */
   .nav{padding:12px 20px}
+  .nav-left{gap:0}
   .nav-links{display:none}
   .nav-cmd{display:none}
   .nav-hamburger{display:flex}
+  .masthead-logo{font-size:22px;letter-spacing:-.6px}
 
   /* Cover */
   .cover-spread{padding:20px 20px 0}
@@ -378,8 +375,11 @@ details[open] .faq-plus{transform:rotate(45deg)}
   /* Standfirst */
   .standfirst{grid-template-columns:1fr;gap:20px;padding:20px 0 36px}
   .sf-body{column-count:1}
-  .sf-toc{display:block;border-left:none;border-top:1px solid #ececea;padding:16px 0 0;margin-top:4px}
   .dropcap{font-size:56px}
+  .cover-h2{font-size:14px}
+  .hero-cta{padding:10px 18px;font-size:12px}
+  /* Selected work heading */
+  .work-section-hdr{padding:36px 20px 0}
 
   /* Spreads */
   .spread{padding:28px 20px 40px}
@@ -493,21 +493,15 @@ details[open] .faq-plus{transform:rotate(45deg)}
 
 <!-- ═══ HEADER ═══════════════════════════════════════════ -->
 <header>
-  <div class="date-strip">
-    <span>Vol. 07 · Issue 02</span>
-    <span>Spring / Summer 2026 · SF · Lisbon</span>
-    <span>Reading time approx. 6 min</span>
-  </div>
-  <div class="masthead">
-    <button class="masthead-logo" data-page="home">Aviato<span class="masthead-dot">.</span></button>
-    <div class="masthead-sub mono">A design &amp; development studio · Est. 2019</div>
-  </div>
   <nav class="nav">
-    <div class="nav-links">
-      <button class="nav-btn active" data-page="home">Index</button>
-      <button class="nav-btn" data-page="work">Portfolio</button>
-      <button class="nav-btn" data-page="about">Studio</button>
-      <button class="nav-btn" data-page="contact">Contact</button>
+    <div class="nav-left">
+      <button class="masthead-logo" data-page="home">Aviato<span class="masthead-dot">.</span></button>
+      <div class="nav-links">
+        <button class="nav-btn active" data-page="home">Index</button>
+        <button class="nav-btn" data-page="work">Portfolio</button>
+        <button class="nav-btn" data-page="about">Studio</button>
+        <button class="nav-btn" data-page="contact">Contact</button>
+      </div>
     </div>
     <div class="nav-right">
       <span class="nav-cmd">⌘K</span>
@@ -547,6 +541,8 @@ details[open] .faq-plus{transform:rotate(45deg)}
       <div class="cover-caption mono">Feature · The cover story</div>
       <div class="cover-hl">
         <h1 class="h86">Websites, <span class="serif-italic">well</span> made.</h1>
+        <p class="cover-h2">We design and build for founders, editors, and brands who care how they're perceived — six-week cycles, real code, shipped on time.</p>
+        <button class="hero-cta" data-page="contact">Start a project ↗</button>
       </div>
       <div class="cover-badge mono">Issue 02 · 80 pp.</div>
     </div>
@@ -560,19 +556,14 @@ details[open] .faq-plus{transform:rotate(45deg)}
         <span class="dropcap">A</span>viato is six humans split between San Francisco and Lisbon. Since 2019 we have made twenty-four websites for founders, editors, and the occasional museum. Our work is divided fairly evenly between brand-and-marketing systems, editorial publications, and product surfaces for software people actually use.
         <span style="display:block;margin-top:1em">We work in six-week cycles, hand-pair design and engineering from day one, and ship every project we start. The studio takes on roughly eight engagements a year. We do not write decks, and we have a strong opinion about kerning.</span>
       </div>
-      <div class="sf-toc">
-        <div style="font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.5px;color:#7a7a82;margin-bottom:10px;font-size:11px">In this issue</div>
-        <div class="toc-row"><span class="toc-pn">04</span><span>Three projects, in detail</span></div>
-        <div class="toc-row"><span class="toc-pn">28</span><span>Process, six weeks</span></div>
-        <div class="toc-row"><span class="toc-pn">44</span><span>A studio at six</span></div>
-        <div class="toc-row"><span class="toc-pn">60</span><span>FAQ &amp; clients</span></div>
-        <div class="toc-row"><span class="toc-pn">76</span><span>How to commission us</span></div>
-      </div>
     </div>
   </div>
 
-  <div style="padding:24px 36px 0">
-    <div class="slabel"><span class="slabel-n">§ 01</span><span class="slabel-rule"></span><span class="slabel-name">Selected work · Three projects</span></div>
+  <div class="work-section-hdr">
+    <div class="work-section-eyebrow">§ 01 · Selected work</div>
+    <h2 class="work-section-title">Three projects,<br><em>in detail.</em></h2>
+    <p class="work-section-sub">Brand systems, editorial platforms, and product surfaces — built from scratch in six weeks.</p>
+    <div class="work-section-rule"></div>
   </div>
 
   <article class="spread">
