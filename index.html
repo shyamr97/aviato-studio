@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aviato — Design &amp; Development Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+/* ─── Reset ─────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter','Helvetica Neue',system-ui,sans-serif;font-size:16px;line-height:1.6;color:#111114;background:#fff;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+button{cursor:pointer;font-family:inherit;border:none;background:none}
+figure{margin:0}
+figcaption{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.4px;text-transform:uppercase;color:#7a7a82;margin-top:8px}
+details{border-top:1px solid #ececea}
+summary{list-style:none}
+summary::-webkit-details-marker{display:none}
+
+/* ─── Instrument Serif italics (sparing accent) ──── */
+.serif-italic{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+.blue{color:#2b4cff}
+
+/* ─── Monospace label ────────────────────────────── */
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* ─── Section label ──────────────────────────────── */
+.slabel{display:flex;align-items:baseline;gap:16px;margin-bottom:28px}
+.slabel-n{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px;opacity:.55}
+.slabel-rule{flex:1;height:1px;background:#111114;opacity:.15}
+.slabel-name{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;opacity:.55}
+
+/* ─── Heading scale (matches design artboard px values) */
+.h108{font-size:clamp(52px,8.4vw,108px);line-height:1.02;letter-spacing:-3px;font-weight:500}
+.h86 {font-size:clamp(44px,6.7vw, 86px);line-height:1.02;letter-spacing:-2.5px;font-weight:500}
+.h72 {font-size:clamp(36px,5.6vw, 72px);line-height:1.02;letter-spacing:-2px;  font-weight:500}
+.h64 {font-size:clamp(32px,5vw,   64px);line-height:1.04;letter-spacing:-1.8px;font-weight:500}
+.h48 {font-size:clamp(28px,3.75vw,48px);line-height:1.05;letter-spacing:-1.2px;font-weight:500}
+.h36 {font-size:clamp(22px,2.8vw, 36px);line-height:1.1; letter-spacing:-1px;  font-weight:500}
+
+/* ─── Date strip ──────────────────────────────────── */
+.date-strip{background:#fafaf7;border-bottom:1px solid #ececea;padding:8px 36px;display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:#5a5a60}
+
+/* ─── Masthead ────────────────────────────────────── */
+.masthead{padding:40px 36px 0;border-bottom:1px solid #ececea;text-align:center}
+.masthead-logo{font-size:56px;line-height:1;letter-spacing:-2.4px;font-weight:500;color:#111114;cursor:pointer;background:none;border:none;font-family:'Inter',sans-serif}
+.masthead-dot{color:#2b4cff}
+.masthead-sub{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2.4px;text-transform:uppercase;color:#7a7a82;margin-top:6px;padding-bottom:22px}
+
+/* ─── Nav ─────────────────────────────────────────── */
+.nav{padding:14px 36px;border-bottom:1px solid #ececea;display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);position:sticky;top:0;z-index:100}
+.nav-links{display:flex;gap:36px}
+.nav-btn{font-size:13px;font-weight:500;letter-spacing:.3px;color:#7a7a82;border:none;border-bottom:2px solid transparent;padding-bottom:4px;transition:color .15s,border-color .15s;background:none;font-family:'Inter',sans-serif;cursor:pointer}
+.nav-btn:hover{color:#111114}
+.nav-btn.active{color:#111114;border-bottom-color:#2b4cff}
+.nav-right{display:flex;gap:16px;align-items:center}
+.nav-cmd{color:#7a7a82;font-family:'JetBrains Mono',monospace;font-size:12px}
+.btn-start{background:#111114;color:#fff;padding:10px 18px;font-size:12px;font-weight:500;letter-spacing:.3px;border-radius:999px;display:flex;align-items:center;gap:8px;transition:background .15s;cursor:pointer;font-family:'Inter',sans-serif}
+.btn-start:hover{background:#2b4cff}
+.dot-green{width:6px;height:6px;background:#7af2a4;border-radius:50%;display:inline-block;flex-shrink:0}
+
+/* ─── Pages ───────────────────────────────────────── */
+.page{display:none}
+.page.active{display:block}
+
+/* ═══════════════════════════════════════════════════
+   HOME PAGE
+═══════════════════════════════════════════════════ */
+
+/* Cover spread */
+.cover-spread{padding:32px 36px 0}
+.cover-byline{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#7a7a82;margin-bottom:16px}
+.cover-hero{position:relative;border-radius:8px;overflow:hidden;margin-bottom:24px}
+.cover-hero img{width:100%;height:580px;object-fit:cover;display:block}
+.cover-grad{position:absolute;inset:0;background:linear-gradient(160deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.55) 100%);pointer-events:none}
+.cover-caption{position:absolute;left:36px;bottom:100px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.85)}
+.cover-hl{position:absolute;left:36px;bottom:36px;color:#fff;max-width:760px}
+.cover-badge{position:absolute;right:24px;top:24px;background:#fff;color:#111114;padding:8px 14px;font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.5px;text-transform:uppercase;border-radius:4px}
+
+/* Standfirst */
+.standfirst{display:grid;grid-template-columns:2fr 3fr 1fr;gap:36px;padding:24px 0 56px}
+.sf-body{column-count:2;column-gap:28px;font-size:14px;line-height:1.65;text-align:justify;hyphens:auto;color:#2a2a30}
+.dropcap{float:left;font-family:'Instrument Serif',serif;font-size:76px;line-height:.85;padding:6px 8px 0 0;color:#2b4cff}
+.sf-body p+p{margin-top:1em}
+.sf-toc{border-left:1px solid #ececea;padding-left:16px;font-size:12px;line-height:1.6;color:#2a2a30}
+.toc-row{display:flex;gap:12px;margin-top:6px}
+.toc-pn{font-family:'JetBrains Mono',monospace;color:#7a7a82}
+
+/* Feature spreads */
+.spread{padding:40px 36px 60px;border-top:1px solid #ececea}
+.spread-meta{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:#7a7a82;margin-bottom:20px}
+.spread-main{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;margin-bottom:24px}
+.spread-main.flip{grid-template-columns:1fr 1.4fr}
+.spread-hero img{width:100%;height:500px;object-fit:cover;display:block;border-radius:6px}
+.spread-text{display:flex;flex-direction:column;justify-content:space-between;padding:8px 0}
+.spread-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:16px}
+.spread-sub{font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;margin-top:12px;color:#5a5a60}
+.spread-blurb{margin-top:32px;font-size:14px;line-height:1.7;max-width:460px;color:#2a2a30}
+.spread-cta{margin-top:24px;display:flex;align-items:baseline;gap:16px}
+.spread-cta-link{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase}
+.spread-cta-rule{flex:1;height:1px;background:#ececea}
+.spread-cta-yr{font-family:'JetBrains Mono',monospace;font-size:11px;color:#7a7a82}
+
+/* Thumb row */
+.thumbs{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:16px;align-items:stretch}
+.pq{padding:24px;color:#fff;display:flex;flex-direction:column;justify-content:space-between;border-radius:6px;min-height:220px}
+.pq-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase;opacity:.85}
+.pq-quote{font-family:'Instrument Serif',serif;font-style:italic;font-size:26px;line-height:1.25;margin:16px 0;font-weight:400}
+.pq-who{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.4px;opacity:.85}
+.thumb img{width:100%;height:220px;object-fit:cover;display:block;border-radius:6px}
+
+/* See-all */
+.see-all{padding:40px 36px 80px;text-align:center}
+.see-all-btn{display:inline-flex;align-items:center;gap:12px;font-size:18px;font-weight:500;color:#111114;border-bottom:1px solid #2b4cff;padding-bottom:4px;cursor:pointer;background:none;border-top:none;border-left:none;border-right:none;font-family:'Inter',sans-serif}
+
+/* Process band */
+.process{padding:70px 36px;background:#f4f6ff;border-top:1px solid #e6eaff;border-bottom:1px solid #e6eaff}
+.process-hdr{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;margin-bottom:40px;align-items:center}
+.process-hdr img{width:100%;height:260px;object-fit:cover;border-radius:6px}
+.phases{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #d8dcef}
+.phase{padding:24px 18px;border-right:1px solid #d8dcef}
+.phase-r{font-family:'Instrument Serif',serif;font-style:italic;font-size:48px;color:#2b4cff;line-height:1}
+.phase-t{font-size:22px;margin-top:12px;font-weight:500;letter-spacing:-.4px}
+.phase-w{font-family:'JetBrains Mono',monospace;font-size:11px;color:#7a7a82;margin:8px 0 14px;text-transform:uppercase;letter-spacing:.5px}
+.phase-d{font-size:13px;line-height:1.55;color:#2a2a30}
+
+/* Letters */
+.letters{padding:80px 36px}
+.letters-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px}
+.letter{display:grid;grid-template-columns:80px 1fr;gap:20px;padding:20px 0;border-top:1px solid #ececea}
+.letter img{width:80px;height:80px;object-fit:cover;border-radius:50%;display:block}
+.lq{font-size:19px;line-height:1.45;letter-spacing:-.2px;margin-bottom:16px;color:#111114;font-weight:400}
+.qm{font-family:'Instrument Serif',serif;font-style:italic;font-size:26px;color:#2b4cff}
+.lby{display:flex;justify-content:space-between;font-size:12px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.4px;color:#7a7a82}
+
+/* Clients */
+.clients{padding:40px 36px;border-top:1px solid #ececea;border-bottom:1px solid #ececea;background:#fafaf7}
+.clients-lbl{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:#7a7a82;margin-bottom:18px;text-align:center}
+.clients-row{display:flex;justify-content:space-around;align-items:center;flex-wrap:wrap;gap:24px}
+.clients-row span{font-size:18px;color:#5a5a60;font-weight:500;letter-spacing:-.3px}
+
+/* FAQ */
+.faq{padding:80px 36px}
+.faq-grid{display:grid;grid-template-columns:1fr 2fr;gap:60px}
+.faq-item{padding:20px 0;border-top:1px solid #ececea}
+.faq-item summary{cursor:pointer;display:flex;justify-content:space-between;align-items:baseline;font-size:22px;font-weight:500;letter-spacing:-.3px}
+.faq-plus{font-family:'JetBrains Mono',monospace;font-size:14px;color:#7a7a82;font-weight:400;display:inline-block;transition:transform .2s}
+details[open] .faq-plus{transform:rotate(45deg)}
+.faq-item p{font-size:14px;line-height:1.7;margin-top:14px;color:#2a2a30;max-width:620px}
+
+/* ═══════════════════════════════════════════════════
+   WORK PAGE
+═══════════════════════════════════════════════════ */
+.work-hdr{padding:48px 36px 32px}
+.work-title-row{display:grid;grid-template-columns:2.5fr 1fr;gap:32px;align-items:end}
+.work-desc{font-size:14px;line-height:1.6;color:#2a2a30;padding-bottom:12px}
+
+.port-grid{padding:32px 36px;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.pcard{display:block;cursor:pointer}
+.pcard-img{position:relative;overflow:hidden;border-radius:6px}
+.pcard-img img{width:100%;height:340px;object-fit:cover;display:block;transition:transform .5s}
+.pcard:hover .pcard-img img{transform:scale(1.04)}
+.pcard-badge{position:absolute;top:16px;left:16px;background:#fff;color:#111114;padding:6px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase;border-radius:3px}
+.pcard-arrow{position:absolute;bottom:16px;right:16px;width:44px;height:44px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;transition:transform .3s}
+.pcard:hover .pcard-arrow{transform:translateY(-4px)}
+.pcard-info{display:flex;justify-content:space-between;align-items:baseline;margin-top:16px;padding-bottom:12px;border-bottom:1px solid #ececea}
+.pcard-name{font-size:28px;letter-spacing:-.6px;font-weight:500}
+.pcard-engage{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#7a7a82}
+.pcard-sub{margin-top:8px;font-size:13px;color:#5a5a60;font-style:italic;font-family:'Instrument Serif',serif}
+
+.port-index{padding:40px 36px 80px}
+.idx-hdr{display:grid;grid-template-columns:60px 1.5fr 80px 2fr 1fr 80px;gap:16px;padding:12px 0;border-bottom:2px solid #111114;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#7a7a82}
+.idx-row{display:grid;grid-template-columns:60px 1.5fr 80px 2fr 1fr 80px;gap:16px;padding:14px 0;align-items:center;border-bottom:1px solid #ececea;cursor:pointer;transition:background .15s}
+.idx-row:hover{background:rgba(43,76,255,.04)}
+.idx-n{font-family:'JetBrains Mono',monospace;font-size:12px;color:#7a7a82}
+.idx-cl{font-size:22px;letter-spacing:-.3px;font-weight:500}
+.idx-plate{width:64px;height:40px;object-fit:cover;display:block;border-radius:3px}
+.idx-eng{font-size:13px;color:#2a2a30}
+.idx-eng em{font-family:'Instrument Serif',serif;font-style:italic;color:#5a5a60}
+.idx-yr{font-family:'JetBrains Mono',monospace;font-size:13px;color:#7a7a82}
+.idx-open{text-align:right;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.4px;text-transform:uppercase;opacity:0;transition:opacity .15s}
+.idx-row:hover .idx-open{opacity:1}
+.tr{text-align:right}
+
+.stats-band{padding:60px 36px;background:#f4f6ff;border-top:1px solid #e6eaff;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.stat-block{border-top:1px solid #d8dcef;padding-top:16px}
+.stat-big{font-size:84px;line-height:.95;letter-spacing:-2.5px;font-weight:500}
+.stat-lbl{font-family:'JetBrains Mono',monospace;font-size:11px;color:#7a7a82;margin-top:12px;text-transform:uppercase;letter-spacing:.5px}
+
+/* ═══════════════════════════════════════════════════
+   ABOUT PAGE
+═══════════════════════════════════════════════════ */
+.about-hdr{padding:48px 36px 0}
+.about-title-row{display:grid;grid-template-columns:1.6fr 1fr;gap:36px;margin-bottom:32px}
+.about-title-row img{width:100%;height:380px;object-fit:cover;border-radius:6px}
+
+.about-lede{padding:24px 36px 60px;display:grid;grid-template-columns:1fr 2fr 1fr;gap:36px}
+.lede-by{border-top:1px solid #ececea;padding-top:12px;font-size:11px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.5px;color:#7a7a82}
+.lede-body{border-top:2px solid #111114;padding-top:16px;column-count:2;column-gap:28px;font-size:14px;line-height:1.7;hyphens:auto;text-align:justify;color:#2a2a30}
+.lede-body p+p{margin-top:.7em}
+.lede-pull{border-top:1px solid #ececea;padding-top:12px;font-size:13px;line-height:1.7;font-style:italic;font-family:'Instrument Serif',serif;color:#2a2a30}
+.lede-pull blockquote{font-weight:400;border:none;padding:0}
+.lede-credit{margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:10px;font-style:normal;text-transform:uppercase;letter-spacing:.5px;color:#7a7a82}
+
+.team-section{padding:60px 36px;background:#fafaf7;border-top:1px solid #ececea;border-bottom:1px solid #ececea}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.person{cursor:pointer}
+.person-img-wrap{position:relative;aspect-ratio:4/5;overflow:hidden;background:#111114;border-radius:6px}
+.person-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.2);transition:filter .4s}
+.person:hover .person-img-wrap img{filter:saturate(1)}
+.person-hiring{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#2b4cff;color:#fff;font-family:'Instrument Serif',serif;font-style:italic;font-size:56px}
+.person-badge{position:absolute;top:12px;right:12px;background:#fff;color:#111114;padding:4px 8px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.5px;text-transform:uppercase;border-radius:3px}
+.person-info{display:flex;justify-content:space-between;align-items:baseline;margin-top:12px;padding-bottom:8px;border-bottom:1px solid #ececea}
+.person-name{font-size:22px;letter-spacing:-.4px;font-weight:500}
+.person-loc{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.4px;text-transform:uppercase;color:#7a7a82}
+.person-role{font-family:'Instrument Serif',serif;font-style:italic;font-size:16px;margin-top:6px;color:#5a5a60}
+
+.manifesto{padding:80px 36px;background:#f4f6ff;border-top:1px solid #e6eaff;border-bottom:1px solid #e6eaff}
+.manifesto ol{list-style:none}
+.mitem{display:grid;grid-template-columns:120px 1fr 200px;gap:24px;padding:24px 0;border-top:1px solid #d8dcef;align-items:baseline}
+.mitem-r{font-family:'Instrument Serif',serif;font-style:italic;font-size:48px;color:#2b4cff;line-height:1}
+.mitem-t{font-size:30px;line-height:1.2;letter-spacing:-.5px;font-weight:500}
+.mitem-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:#7a7a82;text-transform:uppercase;letter-spacing:.5px}
+
+.about-nums{padding:60px 36px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.anum-block{border-top:2px solid #111114;padding-top:16px}
+.anum-big{font-size:76px;line-height:.95;letter-spacing:-2.2px;font-weight:500}
+.anum-lbl{font-family:'JetBrains Mono',monospace;font-size:11px;color:#7a7a82;margin-top:12px;text-transform:uppercase;letter-spacing:.5px}
+
+/* ═══════════════════════════════════════════════════
+   CONTACT PAGE
+═══════════════════════════════════════════════════ */
+.contact-hdr{padding:48px 36px 0}
+.contact-title-row{display:grid;grid-template-columns:1.5fr 1fr;gap:36px;margin-bottom:32px}
+.contact-desc{font-size:14px;line-height:1.7;color:#2a2a30;align-self:end;padding-bottom:12px}
+
+.contact-tiles{padding:24px 36px 60px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.tile{border-radius:8px;padding:36px;display:flex;flex-direction:column;gap:20px}
+.tile-call{background:#fafaf7;border:1px solid #ececea}
+.tile-chat{background:#111114;color:#fff;position:relative;overflow:hidden}
+.tile-grad{position:absolute;inset:0;background:radial-gradient(circle at 80% 0%,rgba(43,76,255,.35),transparent 50%);pointer-events:none}
+.tile-top{display:flex;justify-content:space-between;align-items:flex-start}
+.tile-icon{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.icon-blue{background:#2b4cff;color:#fff}
+.icon-white{background:#fff;color:#111114}
+.tile-status{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:#0e8a4e}
+.status-pulse{width:8px;height:8px;border-radius:50%;background:#0e8a4e;box-shadow:0 0 0 4px rgba(14,138,78,.18);flex-shrink:0}
+.tile-body{display:flex;flex-direction:column}
+.tile-sub{font-size:13px;color:#5a5a60;margin-top:12px;line-height:1.55}
+.tile-actions{display:flex;flex-direction:column;gap:10px}
+.btn-call{background:#2b4cff;color:#fff;padding:14px 18px;font-size:14px;font-weight:500;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;transition:background .15s}
+.btn-call:hover{background:#1f3bd8}
+.btn-cb{background:#fff;color:#111114;border:1px solid #ececea;padding:14px 18px;font-size:14px;font-weight:500;border-radius:999px;transition:border-color .15s;cursor:pointer;font-family:'Inter',sans-serif}
+.btn-cb:hover{border-color:#111114}
+.tile-foot{margin-top:auto;padding-top:16px;border-top:1px solid #ececea;display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:12px;color:#5a5a60}
+.tile-foot-dark{border-top-color:rgba(255,255,255,.15)}
+.tile-foot-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#7a7a82;margin-bottom:4px}
+.tile-foot-lbl-dark{opacity:.7;color:rgba(255,255,255,.7)}
+
+.chat-avatars{display:flex;align-items:center}
+.chat-av{width:32px;height:32px;border-radius:50%;border:2px solid #111114;object-fit:cover;margin-left:-8px;display:block}
+.chat-av:first-child{margin-left:0}
+.online-count{margin-left:10px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase;opacity:.85;color:rgba(255,255,255,.85)}
+.btn-chat{position:relative;background:#fff;color:#111114;border:none;padding:14px 18px;font-family:'Inter',sans-serif;font-size:14px;font-weight:500;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:background .15s}
+.btn-chat:hover{background:#7af2a4}
+
+/* Callback form */
+.cb-form{padding:16px;background:#fff;border:1px solid #ececea;border-radius:6px;display:flex;flex-direction:column;gap:10px}
+.cb-form-hdr{display:flex;justify-content:space-between;align-items:center}
+.cb-lbl{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:#7a7a82}
+.close-x{background:transparent;border:none;cursor:pointer;font-size:18px;color:#7a7a82;line-height:1}
+.cb-input{border:none;border-bottom:1px solid #ececea;padding:8px 0;font-family:'Inter',sans-serif;font-size:16px;outline:none;width:100%}
+.cb-select{border:none;border-bottom:1px solid #ececea;padding:8px 0;font-family:'Inter',sans-serif;font-size:14px;outline:none;background:transparent;appearance:none;color:#2a2a30;width:100%;cursor:pointer}
+.btn-cb-submit{background:#2b4cff;color:#fff;border:none;padding:10px 14px;border-radius:999px;font-family:'Inter',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:background .15s}
+.btn-cb-submit:disabled{background:#ececea;color:#7a7a82;cursor:not-allowed}
+.cb-success{padding:16px;background:#eaf6ee;border:1px solid #c5e3cf;border-radius:6px;font-size:13px;color:#0e6a3d;display:flex;justify-content:space-between;align-items:center}
+
+/* Slower channels */
+.slower{padding:40px 36px 80px;border-top:1px solid #ececea}
+.channels{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.channel{border-top:1px solid #ececea;padding-top:14px}
+.ch-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:#7a7a82;margin-bottom:6px}
+.ch-val{font-size:18px;letter-spacing:-.3px;font-weight:500;margin-bottom:4px}
+.ch-sub{font-size:12px;color:#7a7a82}
+
+/* ═══════════════════════════════════════════════════
+   CHAT WIDGET
+═══════════════════════════════════════════════════ */
+.chat-widget{position:fixed;bottom:24px;right:24px;width:360px;height:480px;background:#fff;border-radius:12px;box-shadow:0 24px 60px rgba(0,0,0,.25),0 4px 16px rgba(0,0,0,.1);display:flex;flex-direction:column;overflow:hidden;z-index:200}
+.chat-widget[hidden]{display:none}
+.cw-header{padding:14px 16px;background:#111114;color:#fff;display:flex;justify-content:space-between;align-items:center}
+.cw-user{display:flex;align-items:center;gap:10px}
+.cw-avatar{width:32px;height:32px;border-radius:50%;object-fit:cover}
+.cw-name{font-size:13px;font-weight:500}
+.cw-status{font-size:11px;opacity:.7;display:flex;align-items:center;gap:6px;margin-top:2px}
+.dot-xs{width:6px;height:6px;background:#7af2a4;border-radius:50%;display:inline-block}
+.cw-close{background:transparent;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1}
+.cw-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:#fafaf7}
+.cw-msg{display:flex}
+.cw-msg.me{justify-content:flex-end}
+.cw-bubble{max-width:78%;padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.45}
+.cw-msg:not(.me) .cw-bubble{background:#fff;color:#111114;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.cw-msg.me .cw-bubble{background:#2b4cff;color:#fff}
+.cw-time{font-size:10px;margin-top:6px;opacity:.6;font-family:'JetBrains Mono',monospace}
+.cw-input-row{padding:12px;border-top:1px solid #ececea;display:flex;gap:8px}
+.cw-input{flex:1;border:1px solid #ececea;padding:10px 12px;border-radius:999px;font-family:'Inter',sans-serif;font-size:13px;outline:none}
+.cw-send{background:#2b4cff;color:#fff;border:none;padding:0 16px;border-radius:999px;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;font-weight:500}
+
+/* ═══════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════ */
+.footer{padding:60px 36px 24px;border-top:1px solid #ececea;background:#fafaf7}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:40px}
+.footer-logo{font-family:'Inter',sans-serif;font-size:44px;line-height:1;letter-spacing:-1.6px;font-weight:500;margin-bottom:12px}
+.footer-tag{font-size:13px;color:#5a5a60;max-width:320px;line-height:1.55}
+.footer-col-hd{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#7a7a82;margin-bottom:14px}
+.footer-col-links{font-size:13px;line-height:2;color:#2a2a30;display:flex;flex-direction:column}
+.footer-col-links button{color:#2a2a30;font-family:'Inter',sans-serif;font-size:13px;text-align:left;cursor:pointer;background:none;border:none;padding:0;transition:color .15s}
+.footer-col-links button:hover{color:#111114}
+.footer-col-links span{display:block}
+.footer-bot{padding-top:16px;border-top:1px solid #ececea;display:flex;justify-content:space-between;font-size:11px;color:#7a7a82;font-family:'JetBrains Mono',monospace;letter-spacing:.4px;text-transform:uppercase}
+  </style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══════════════════════════════════════════ -->
+<header>
+  <div class="date-strip">
+    <span>Vol. 07 · Issue 02</span>
+    <span>Spring / Summer 2026 · SF · Lisbon</span>
+    <span>Reading time approx. 6 min</span>
+  </div>
+  <div class="masthead">
+    <button class="masthead-logo" data-page="home">Aviato<span class="masthead-dot">.</span></button>
+    <div class="masthead-sub mono">A design &amp; development studio · Est. 2019</div>
+  </div>
+  <nav class="nav">
+    <div class="nav-links">
+      <button class="nav-btn active" data-page="home">Index</button>
+      <button class="nav-btn" data-page="work">Portfolio</button>
+      <button class="nav-btn" data-page="about">Studio</button>
+      <button class="nav-btn" data-page="contact">Contact</button>
+    </div>
+    <div class="nav-right">
+      <span class="nav-cmd">⌘K</span>
+      <button class="btn-start" data-page="contact"><span class="dot-green"></span>Start a project</button>
+    </div>
+  </nav>
+</header>
+
+<!-- ═══ PAGES ════════════════════════════════════════════ -->
+<main>
+
+<!-- ──────────────────── HOME ──────────────────────────── -->
+<section class="page active" id="page-home">
+
+  <!-- Cover spread -->
+  <div class="cover-spread">
+    <div class="cover-byline">
+      <span>Cover Story / pp. 04–28</span>
+      <span>The studio at six</span>
+      <span>By N. Brandt &amp; the editors</span>
+    </div>
+    <div class="cover-hero">
+      <img src="https://images.unsplash.com/photo-1561070791-36c11767b26a?auto=format&fit=crop&w=1600&q=80" alt="Design workspace" />
+      <div class="cover-grad"></div>
+      <div class="cover-caption mono">Feature · The cover story</div>
+      <div class="cover-hl">
+        <h1 class="h86">Websites, <span class="serif-italic">well</span> made.</h1>
+      </div>
+      <div class="cover-badge mono">Issue 02 · 80 pp.</div>
+    </div>
+
+    <!-- Standfirst -->
+    <div class="standfirst">
+      <div>
+        <div style="font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:#7a7a82;font-family:'JetBrains Mono',monospace;margin-bottom:12px">The pitch</div>
+        <p class="h36">We design and build <span class="serif-italic blue">websites</span> for people who care about how they read.</p>
+      </div>
+      <div class="sf-body">
+        <span class="dropcap">A</span>viato is six humans split between San Francisco and Lisbon. Since 2019 we have made twenty-four websites for founders, editors, and the occasional museum. Our work is divided fairly evenly between brand-and-marketing systems, editorial publications, and product surfaces for software people actually use.
+        <span style="display:block;margin-top:1em">We work in six-week cycles, hand-pair design and engineering from day one, and ship every project we start. The studio takes on roughly eight engagements a year. We do not write decks, and we have a strong opinion about kerning.</span>
+      </div>
+      <div class="sf-toc">
+        <div style="font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.5px;color:#7a7a82;margin-bottom:10px;font-size:11px">In this issue</div>
+        <div class="toc-row"><span class="toc-pn">04</span><span>Three projects, in detail</span></div>
+        <div class="toc-row"><span class="toc-pn">28</span><span>Process, six weeks</span></div>
+        <div class="toc-row"><span class="toc-pn">44</span><span>A studio at six</span></div>
+        <div class="toc-row"><span class="toc-pn">60</span><span>FAQ &amp; clients</span></div>
+        <div class="toc-row"><span class="toc-pn">76</span><span>How to commission us</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Selected work -->
+  <div style="padding:24px 36px 0">
+    <div class="slabel"><span class="slabel-n">§ 01</span><span class="slabel-rule"></span><span class="slabel-name">Selected work · Three projects</span></div>
+  </div>
+
+  <!-- Spread 01 — Hover Labs -->
+  <article class="spread">
+    <div class="spread-meta">
+      <span>Project No. 01 / 2025</span><span>The Aviato Quarterly · Vol 07 · Issue 02</span><span>pp. 04–11</span>
+    </div>
+    <div class="spread-main">
+      <figure class="spread-hero"><img src="https://images.unsplash.com/photo-1545665277-5937489579f2?auto=format&fit=crop&w=1600&q=80" alt="Hover Labs" /><figcaption>↳ Hover Labs · documentation, 2025</figcaption></figure>
+      <div class="spread-text">
+        <div>
+          <div class="spread-kicker" style="color:#2b4cff">Feature · Brand &amp; marketing site</div>
+          <h2 class="h72">Hover Labs</h2>
+          <div class="spread-sub">Brand &amp; marketing site · 2025</div>
+          <p class="spread-blurb">A flight-control dashboard for autonomous drones. We rebuilt the brand from typeface up and shipped a marketing site that looks like the company they are becoming.</p>
+        </div>
+        <div class="spread-cta"><span class="spread-cta-link" style="color:#2b4cff">Read the case →</span><span class="spread-cta-rule"></span><span class="spread-cta-yr">2025</span></div>
+      </div>
+    </div>
+    <div class="thumbs">
+      <div class="pq" style="background:#2b4cff"><div class="pq-label">Pull-quote · 2025</div><blockquote class="pq-quote">"Closed Series B in three weeks. Site shipped four days early."</blockquote><div class="pq-who">— Maya Brunner · Founder</div></div>
+      <figure class="thumb"><img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=600&q=80" alt="" /><figcaption>↳ Plate i</figcaption></figure>
+      <figure class="thumb"><img src="https://images.unsplash.com/photo-1561070791-7e1d39b08c7c?auto=format&fit=crop&w=600&q=80" alt="" /><figcaption>↳ Plate ii</figcaption></figure>
+      <figure class="thumb"><img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=600&q=80" alt="" /><figcaption>↳ Plate iii</figcaption></figure>
+    </div>
+  </article>
+
+  <!-- Spread 02 — Cassia (flip) -->
+  <article class="spread">
+    <div class="spread-meta">
+      <span>Project No. 02 / 2025</span><span>The Aviato Quarterly · Vol 07 · Issue 02</span><span>pp. 12–19</span>
+    </div>
+    <div class="spread-main flip">
+      <div class="spread-text">
+        <div>
+          <div class="spread-kicker" style="color:#c44a2c">Feature · Editorial publication system</div>
+          <h2 class="h72">Cassia &amp; Co.</h2>
+          <div class="spread-sub">Editorial publication system · 2025</div>
+          <p class="spread-blurb">A quarterly print and web publication about food, place, and the people who feed us. 14-column grid, custom display serif, bespoke editorial templates.</p>
+        </div>
+        <div class="spread-cta"><span class="spread-cta-link" style="color:#c44a2c">Read the case →</span><span class="spread-cta-rule"></span><span class="spread-cta-yr">2025</span></div>
+      </div>
+      <figure class="spread-hero"><img src="https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=1600&q=80" alt="Cassia" /><figcaption>↳ Cassia &amp; Co. · documentation, 2025</figcaption></figure>
+    </div>
+    <div class="thumbs">
+      <div class="pq" style="background:#c44a2c"><div class="pq-label">Pull-quote · 2025</div><blockquote class="pq-quote">"They got the quarterly to feel like an object, not a website."</blockquote><div class="pq-who">— Jules Park · Editor in chief</div></div>
+      <figure class="thumb"><img src="https://images.unsplash.com/photo-1495465798138-718f86d1a4bc?auto=format&fit=crop&w=600&q=80" alt="" /><figcaption>↳ Plate i</figcaption></figure>
+      <figure class="thumb"><img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=600&q=80" alt="" /><figcaption>↳ Plate ii</figcaption></figure>
+      <figure class="thumb"><img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?auto=format&fit=crop&w=600&q=80" alt="" /><figcaption>↳ Plate iii</figcaption></figure>
+    </div>
+  </article>
+
+  <!-- Spread 03 — Mantle -->
+  <article class="spread">
+    <div class="spread-meta">
+      <span>Project No. 03 / 2024</span><span>The Aviato Quarterly · Vol 07 · Issue 02</span><span>pp. 20–27</span>
+    </div>
+    <div class="spread-main">
+      <figure class="spread-hero"><img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1600&q=80" alt="Mantle" /><figcaption>↳ Mantle · documentation, 2024</figcaption></figure>
+      <div class="spread-text">
+        <div>
+          <div class="spread-kicker" style="color:#0e8a4e">Feature · Webapp &amp; brand identity</div>
+          <h2 class="h72">Mantle</h2>
+          <div class="spread-sub">Webapp &amp; brand identity · 2024</div>
+          <p class="spread-blurb">Project management for production teams who hate project management. Now used by three of the top five US ad agencies.</p>
+        </div>
+        <div class="spread-cta"><span class="spread-cta-link" style="color:#0e8a4e">Read the case →</span><span class="spread-cta-rule"></span><span class="spread-cta-yr">2024</span></div>
+      </div>
+    </div>
+    <div class="thumbs">
+      <div class="pq" style="background:#0e8a4e"><div class="pq-label">Pull-quote · 2024</div><blockquote class="pq-quote">"Aviato made us look four years more mature than we are."</blockquote><div class="pq-who">— Tom Lacey · CTO</div></div>
+      <figure class="thumb"><img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80" alt="" /><figcaption>↳ Plate i</figcaption></figure>
+      <figure class="thumb"><img src="https://images.unsplash.com/photo-1542435503-956c469947f6?auto=format&fit=crop&w=600&q=80" alt="" /><figcaption>↳ Plate ii</figcaption></figure>
+      <figure class="thumb"><img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=600&q=80" alt="" /><figcaption>↳ Plate iii</figcaption></figure>
+    </div>
+  </article>
+
+  <div class="see-all">
+    <button class="see-all-btn" data-page="work">See all twenty-four projects <span class="serif-italic blue">→</span></button>
+  </div>
+
+  <!-- Process -->
+  <div class="process">
+    <div class="slabel"><span class="slabel-n">§ 02</span><span class="slabel-rule" style="opacity:.2;background:#2b4cff"></span><span class="slabel-name">Process · Six weeks, four phases</span></div>
+    <div class="process-hdr">
+      <h2 class="h64">Six weeks. Four phases. <span class="serif-italic blue">One</span> shipped site.</h2>
+      <figure><img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1600&q=80" alt="Studio" /><figcaption>↳ Studio · 2025</figcaption></figure>
+    </div>
+    <div class="phases">
+      <div class="phase"><div class="phase-r">I</div><div class="phase-t">Discover</div><div class="phase-w">Week 1</div><div class="phase-d">Audit, interviews, scope. We try to break the pitch.</div></div>
+      <div class="phase"><div class="phase-r">II</div><div class="phase-t">Design</div><div class="phase-w">Weeks 2–3</div><div class="phase-d">Type, grid, motion, components. Hi-fi from day one.</div></div>
+      <div class="phase"><div class="phase-r">III</div><div class="phase-t">Build</div><div class="phase-w">Weeks 4–5</div><div class="phase-d">Webflow, Next.js, Astro. Real, deployable code.</div></div>
+      <div class="phase"><div class="phase-r">IV</div><div class="phase-t">Ship</div><div class="phase-w">Week 6</div><div class="phase-d">QA, launch, post-launch tuning. We send the cake.</div></div>
+    </div>
+  </div>
+
+  <!-- Letters -->
+  <div class="letters">
+    <div class="slabel"><span class="slabel-n">§ 03</span><span class="slabel-rule"></span><span class="slabel-name">Letters · From past clients</span></div>
+    <div class="letters-grid">
+      <div class="letter"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80" alt="Maya" /><div><p class="lq"><span class="qm">"</span>They shipped a marketing site that looked like our Series B and read like our Series A. We closed in three weeks.<span class="qm">"</span></p><div class="lby"><span>Maya Brunner · Founder, Hover Labs</span><span>San Francisco</span></div></div></div>
+      <div class="letter"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80" alt="Jules" /><div><p class="lq"><span class="qm">"</span>The quarterly feels like an object, not a website. We have not received a single email asking 'where is the homepage'.<span class="qm">"</span></p><div class="lby"><span>Jules Park · Editor, Cassia &amp; Co.</span><span>Brooklyn</span></div></div></div>
+      <div class="letter"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80" alt="Tom" /><div><p class="lq"><span class="qm">"</span>They argued with us about kerning for an hour. They were right. We hired them on the spot.<span class="qm">"</span></p><div class="lby"><span>Tom Lacey · CTO, Mantle</span><span>London</span></div></div></div>
+      <div class="letter"><img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=300&q=80" alt="Anya" /><div><p class="lq"><span class="qm">"</span>Aviato is the only studio we have used twice. There will be a third.<span class="qm">"</span></p><div class="lby"><span>Anya Roselli · Brand director, Plume</span><span>Milan</span></div></div></div>
+    </div>
+  </div>
+
+  <!-- Clients -->
+  <div class="clients">
+    <div class="clients-lbl">Past &amp; present clients · Selected</div>
+    <div class="clients-row">
+      <span>Hover Labs</span><span>Cassia &amp; Co.</span><span>Mantle</span><span>Northvale</span><span>Plume</span><span>Forge</span><span>Indigo Health</span><span>Quinn Studio</span>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq">
+    <div class="slabel"><span class="slabel-n">§ 04</span><span class="slabel-rule"></span><span class="slabel-name">The FAQ · Things we are asked weekly</span></div>
+    <div class="faq-grid">
+      <h2 class="h48">We get the same five <span class="serif-italic blue">questions</span> almost every week.</h2>
+      <div>
+        <details class="faq-item"><summary>How much does a site cost?<span class="faq-plus">+</span></summary><p>$45k–$120k for marketing sites; $80k–$300k for product sites with custom build. We send a fixed quote after a 30-min intro call.</p></details>
+        <details class="faq-item"><summary>How long does it take?<span class="faq-plus">+</span></summary><p>Six weeks for a marketing site, eight to twelve for product. We do not do "rush" because rushing is what got the last site looking like that.</p></details>
+        <details class="faq-item"><summary>Do you do logos?<span class="faq-plus">+</span></summary><p>Yes — but only as part of a full brand engagement. Logos in isolation are a cry for help.</p></details>
+        <details class="faq-item"><summary>Will you work with our developers?<span class="faq-plus">+</span></summary><p>Happily. About a third of our work is design-only handoff to in-house engineering.</p></details>
+        <details class="faq-item"><summary>Are you hiring?<span class="faq-plus">+</span></summary><p>A rolling open call for senior designers and engineers. about@aviato.studio.</p></details>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ──────────────────── WORK ───────────────────────────── -->
+<section class="page" id="page-work">
+  <div class="work-hdr">
+    <div class="slabel"><span class="slabel-n">§ P</span><span class="slabel-rule"></span><span class="slabel-name">Portfolio · 24 selected projects · 2019–2025</span></div>
+    <div class="work-title-row">
+      <h1 class="h108">An <span class="serif-italic blue">illustrated</span> portfolio.</h1>
+      <p class="work-desc">All twenty-four projects we have shipped since 2019, photographed in the studio. Each entry links to a longer write-up &amp; the live site, where it still runs.</p>
+    </div>
+  </div>
+
+  <div class="port-grid">
+    <a class="pcard" href="#"><div class="pcard-img"><img src="https://images.unsplash.com/photo-1545665277-5937489579f2?auto=format&fit=crop&w=1200&q=80" alt="Hover Labs" /><div class="pcard-badge">№ 01 · 2025</div><div class="pcard-arrow" style="background:#2b4cff">↗</div></div><div class="pcard-info"><span class="pcard-name">Hover Labs</span><span class="pcard-engage">Marketing &amp; brand</span></div><div class="pcard-sub">Series-B fundraise</div></a>
+    <a class="pcard" href="#"><div class="pcard-img"><img src="https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=1200&q=80" alt="Cassia" /><div class="pcard-badge">№ 02 · 2025</div><div class="pcard-arrow" style="background:#c44a2c">↗</div></div><div class="pcard-info"><span class="pcard-name">Cassia &amp; Co.</span><span class="pcard-engage">Editorial publication</span></div><div class="pcard-sub">Quarterly · print + web</div></a>
+    <a class="pcard" href="#"><div class="pcard-img"><img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1200&q=80" alt="Mantle" /><div class="pcard-badge">№ 03 · 2024</div><div class="pcard-arrow" style="background:#0e8a4e">↗</div></div><div class="pcard-info"><span class="pcard-name">Mantle</span><span class="pcard-engage">Webapp &amp; brand</span></div><div class="pcard-sub">Production PM tool</div></a>
+    <a class="pcard" href="#"><div class="pcard-img"><img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=1200&q=80" alt="Northvale" /><div class="pcard-badge">№ 04 · 2024</div><div class="pcard-arrow" style="background:#2b4cff">↗</div></div><div class="pcard-info"><span class="pcard-name">Northvale Mfg.</span><span class="pcard-engage">Industrial commerce</span></div><div class="pcard-sub">Shopify Plus</div></a>
+  </div>
+
+  <div class="port-index">
+    <div class="slabel"><span class="slabel-n">§ i</span><span class="slabel-rule"></span><span class="slabel-name">Index · The remaining twenty</span></div>
+    <div class="idx-hdr"><span>№</span><span>Client</span><span>Plate</span><span>Engagement</span><span>Year</span><span class="tr">Open</span></div>
+    <div class="idx-row"><span class="idx-n">05</span><span class="idx-cl">Plume</span><img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=200&q=80" class="idx-plate" alt=""/><span class="idx-eng">iOS &amp; landing · <em>Consumer app</em></span><span class="idx-yr">2024</span><span class="idx-open" style="color:#9a6aff">Open →</span></div>
+    <div class="idx-row"><span class="idx-n">06</span><span class="idx-cl">Forge &amp; Co.</span><img src="https://images.unsplash.com/photo-1542435503-956c469947f6?auto=format&fit=crop&w=200&q=80" class="idx-plate" alt=""/><span class="idx-eng">Brand identity · <em>Identity system</em></span><span class="idx-yr">2023</span><span class="idx-open" style="color:#111114">Open →</span></div>
+    <div class="idx-row"><span class="idx-n">07</span><span class="idx-cl">Indigo Health</span><img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=200&q=80" class="idx-plate" alt=""/><span class="idx-eng">Patient portal · <em>Healthcare</em></span><span class="idx-yr">2023</span><span class="idx-open" style="color:#2b4cff">Open →</span></div>
+    <div class="idx-row"><span class="idx-n">08</span><span class="idx-cl">Quinn Studio</span><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=200&q=80" class="idx-plate" alt=""/><span class="idx-eng">Portfolio site · <em>Architecture</em></span><span class="idx-yr">2023</span><span class="idx-open" style="color:#c44a2c">Open →</span></div>
+    <div class="idx-row"><span class="idx-n">09</span><span class="idx-cl">Atelier Park</span><img src="https://images.unsplash.com/photo-1495465798138-718f86d1a4bc?auto=format&fit=crop&w=200&q=80" class="idx-plate" alt=""/><span class="idx-eng">E-commerce · <em>DTC ceramics</em></span><span class="idx-yr">2023</span><span class="idx-open" style="color:#2b4cff">Open →</span></div>
+    <div class="idx-row"><span class="idx-n">10</span><span class="idx-cl">Briar Press</span><img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=200&q=80" class="idx-plate" alt=""/><span class="idx-eng">Editorial · <em>Independent press</em></span><span class="idx-yr">2022</span><span class="idx-open" style="color:#c44a2c">Open →</span></div>
+    <div class="idx-row"><span class="idx-n">11</span><span class="idx-cl">Northstar</span><img src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?auto=format&fit=crop&w=200&q=80" class="idx-plate" alt=""/><span class="idx-eng">Marketing site · <em>Climate tech</em></span><span class="idx-yr">2022</span><span class="idx-open" style="color:#0e8a4e">Open →</span></div>
+    <div class="idx-row"><span class="idx-n">12</span><span class="idx-cl">Vellum</span><img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=200&q=80" class="idx-plate" alt=""/><span class="idx-eng">Webapp · <em>Reading software</em></span><span class="idx-yr">2022</span><span class="idx-open" style="color:#2b4cff">Open →</span></div>
+  </div>
+
+  <div class="stats-band">
+    <div class="stat-block"><div class="stat-big">24</div><div class="stat-lbl">Projects shipped</div></div>
+    <div class="stat-block"><div class="stat-big">98%</div><div class="stat-lbl">Launched on time</div></div>
+    <div class="stat-block"><div class="stat-big">$340M</div><div class="stat-lbl">Raised by clients</div></div>
+    <div class="stat-block"><div class="stat-big">6 yrs</div><div class="stat-lbl">In business</div></div>
+  </div>
+</section>
+
+<!-- ──────────────────── ABOUT ──────────────────────────── -->
+<section class="page" id="page-about">
+  <div class="about-hdr">
+    <div class="slabel"><span class="slabel-n">§ S</span><span class="slabel-rule"></span><span class="slabel-name">The Studio · A six-person practice</span></div>
+    <div class="about-title-row">
+      <h1 class="h108">Six humans, one cat, <span class="serif-italic blue">two cities</span>.</h1>
+      <figure><img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=80" alt="Lisbon office" /><figcaption>↳ The Lisbon office, December 2025</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="about-lede">
+    <div class="lede-by">A profile · By the editors · Spring 2026</div>
+    <div class="lede-body">
+      <span class="dropcap">A</span>viato is a small studio. We started in 2019 in a one-bedroom apartment in the Mission with two clients, one Figma seat, and a strong opinion about kerning. We had a hunch that the way most marketing agencies were making websites — long discovery, deck after deck, a year to launch — was bad for clients and bad for the people doing the work.
+      <p>Six years on, we are still six people. We have turned down twelve acquisition offers and at least two attempts to rebrand us as an "agency". Half of us are in San Francisco, half in Lisbon, and we ship roughly eight projects a year.</p>
+      <p>The studio operates on six-week sprints. Design and engineering are paired from day one — there is no handoff document because there is no handoff. We make websites we would want to read.</p>
+    </div>
+    <div class="lede-pull">
+      <blockquote>"We are not an agency. We do not write decks. We have a strong opinion about kerning."</blockquote>
+      <div class="lede-credit">— From the studio's 2019 prospectus</div>
+    </div>
+  </div>
+
+  <div class="team-section">
+    <div class="slabel"><span class="slabel-n">§ T</span><span class="slabel-rule"></span><span class="slabel-name">The team · Six people, in alphabetical disorder</span></div>
+    <div class="team-grid">
+      <div class="person"><div class="person-img-wrap"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80" alt="Nina" class="person-img"/><span class="person-badge">Plate</span></div><div class="person-info"><span class="person-name">Nina Brandt</span><span class="person-loc">Lisbon · 2018–</span></div><div class="person-role">Principal · Design</div></div>
+      <div class="person"><div class="person-img-wrap"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80" alt="Jordan" class="person-img"/><span class="person-badge">Plate</span></div><div class="person-info"><span class="person-name">Jordan Park</span><span class="person-loc">San Francisco · 2018–</span></div><div class="person-role">Principal · Engineering</div></div>
+      <div class="person"><div class="person-img-wrap"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=800&q=80" alt="Marisol" class="person-img"/><span class="person-badge">Plate</span></div><div class="person-info"><span class="person-name">Marisol Reyes</span><span class="person-loc">Mexico City · 2020–</span></div><div class="person-role">Senior Designer</div></div>
+      <div class="person"><div class="person-img-wrap"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80" alt="Theo" class="person-img"/><span class="person-badge">Plate</span></div><div class="person-info"><span class="person-name">Theo Tanaka</span><span class="person-loc">Lisbon · 2021–</span></div><div class="person-role">Senior Engineer</div></div>
+      <div class="person"><div class="person-img-wrap"><img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=800&q=80" alt="Aubrey" class="person-img"/><span class="person-badge">Plate</span></div><div class="person-info"><span class="person-name">Aubrey Bell</span><span class="person-loc">Brooklyn · 2023–</span></div><div class="person-role">Designer</div></div>
+      <div class="person"><div class="person-img-wrap"><div class="person-hiring">Hiring</div><span class="person-badge">Open</span></div><div class="person-info"><span class="person-name">You?</span><span class="person-loc">Hiring rolling</span></div><div class="person-role">Open role · Senior IC</div></div>
+    </div>
+  </div>
+
+  <div class="manifesto">
+    <div class="slabel"><span class="slabel-n">§ M</span><span class="slabel-rule" style="opacity:.2;background:#2b4cff"></span><span class="slabel-name">Manifesto · Six things we believe</span></div>
+    <ol>
+      <li class="mitem"><span class="mitem-r">I.</span><span class="mitem-t">Design without engineering is decoration.</span><span class="mitem-n">Tenet № 01</span></li>
+      <li class="mitem"><span class="mitem-r">II.</span><span class="mitem-t">Engineering without design is plumbing.</span><span class="mitem-n">Tenet № 02</span></li>
+      <li class="mitem"><span class="mitem-r">III.</span><span class="mitem-t">Six weeks is enough. Twelve months is theft.</span><span class="mitem-n">Tenet № 03</span></li>
+      <li class="mitem"><span class="mitem-r">IV.</span><span class="mitem-t">A site that does not ship does not exist.</span><span class="mitem-n">Tenet № 04</span></li>
+      <li class="mitem"><span class="mitem-r">V.</span><span class="mitem-t">Type does sixty per cent of the work. Charge for it.</span><span class="mitem-n">Tenet № 05</span></li>
+      <li class="mitem"><span class="mitem-r">VI.</span><span class="mitem-t">No mood boards. Make the thing.</span><span class="mitem-n">Tenet № 06</span></li>
+    </ol>
+  </div>
+
+  <div class="about-nums">
+    <div class="anum-block"><div class="anum-big">2019</div><div class="anum-lbl">Founded</div></div>
+    <div class="anum-block"><div class="anum-big">6</div><div class="anum-lbl">Humans</div></div>
+    <div class="anum-block"><div class="anum-big">24</div><div class="anum-lbl">Projects</div></div>
+    <div class="anum-block"><div class="anum-big">1</div><div class="anum-lbl">Cat (Mango)</div></div>
+  </div>
+</section>
+
+<!-- ──────────────────── CONTACT ────────────────────────── -->
+<section class="page" id="page-contact">
+  <div class="contact-hdr">
+    <div class="slabel"><span class="slabel-n">§ C</span><span class="slabel-rule"></span><span class="slabel-name">Contact · Two ways to reach us, instantly</span></div>
+    <div class="contact-title-row">
+      <h1 class="h108">Talk to us. <span class="serif-italic blue">Right now.</span></h1>
+      <p class="contact-desc">Skip the form. Pick up the phone or open a live chat with one of the studio principals — we answer Mon–Thu, 9am–5pm PT, and most weekend mornings out of habit.</p>
+    </div>
+  </div>
+
+  <div class="contact-tiles">
+    <!-- Call tile -->
+    <div class="tile tile-call">
+      <div class="tile-top">
+        <div class="tile-icon icon-blue">☏</div>
+        <div class="tile-status"><span class="status-pulse"></span>We are picking up</div>
+      </div>
+      <div class="tile-body">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:#7a7a82;margin-bottom:8px">Call us</div>
+        <h2 class="h48">+1 (415) 555-0144</h2>
+        <p class="tile-sub">Direct line to Nina or Jordan. No phone tree, no "press 1 for sales".</p>
+      </div>
+      <div class="tile-actions">
+        <a href="tel:+14155550144" class="btn-call">☏ Call now</a>
+        <button class="btn-cb" id="btnCallback">Request a callback →</button>
+      </div>
+      <div class="cb-form" id="cbForm" hidden>
+        <div class="cb-form-hdr"><span class="cb-lbl">We'll call you</span><button class="close-x" id="cbClose">×</button></div>
+        <input type="tel" id="cbPhone" placeholder="+1 415 555 0123" class="cb-input" />
+        <select id="cbWhen" class="cb-select"><option>Within the hour</option><option>Today, before 5pm</option><option>Tomorrow morning</option><option>This week</option></select>
+        <button class="btn-cb-submit" id="cbSubmit" disabled>Request callback</button>
+      </div>
+      <div class="cb-success" id="cbSuccess" hidden></div>
+      <div class="tile-foot">
+        <div><div class="tile-foot-lbl">Hours</div>Mon–Thu · 9–5 PT</div>
+        <div><div class="tile-foot-lbl">Avg pickup</div>Under 30 seconds</div>
+      </div>
+    </div>
+
+    <!-- Chat tile -->
+    <div class="tile tile-chat">
+      <div class="tile-grad"></div>
+      <div class="tile-top" style="position:relative">
+        <div class="tile-icon icon-white">✦</div>
+        <div class="chat-avatars">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80" class="chat-av" alt=""/>
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" class="chat-av" alt=""/>
+          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80" class="chat-av" alt=""/>
+          <span class="online-count">3 online</span>
+        </div>
+      </div>
+      <div class="tile-body" style="position:relative">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:8px">Chat with us</div>
+        <h2 class="h48" style="color:#fff">Live chat, real humans.</h2>
+        <p class="tile-sub" style="color:rgba(255,255,255,.75)">Open a thread with the studio. First reply usually inside two minutes during working hours.</p>
+      </div>
+      <button class="btn-chat" id="btnChat" style="position:relative"><span class="dot-green"></span>Open live chat</button>
+      <div class="tile-foot tile-foot-dark" style="position:relative">
+        <div><div class="tile-foot-lbl tile-foot-lbl-dark">Reply time</div><span style="color:rgba(255,255,255,.75)">~2 min, working hours</span></div>
+        <div><div class="tile-foot-lbl tile-foot-lbl-dark">End-to-end</div><span style="color:rgba(255,255,255,.75)">No bots. No ticket queues.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slower">
+    <div class="slabel"><span class="slabel-n">§ i</span><span class="slabel-rule"></span><span class="slabel-name">Or, the slower channels</span></div>
+    <div class="channels">
+      <div class="channel"><div class="ch-lbl">Email</div><div class="ch-val">hello@aviato.studio</div><div class="ch-sub">Reply within 24 hours</div></div>
+      <div class="channel"><div class="ch-lbl">Press</div><div class="ch-val">press@aviato.studio</div><div class="ch-sub">Interviews &amp; features</div></div>
+      <div class="channel"><div class="ch-lbl">Hiring</div><div class="ch-val">jobs@aviato.studio</div><div class="ch-sub">Open IC roles</div></div>
+      <div class="channel"><div class="ch-lbl">Address</div><div class="ch-val">SF · Lisbon</div><div class="ch-sub">By appointment</div></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">Aviato<span class="masthead-dot">.</span></div>
+      <p class="footer-tag">A design &amp; development studio for founders, editors, and the occasional museum. Six humans, two cities.</p>
+    </div>
+    <div><div class="footer-col-hd">Sections</div><div class="footer-col-links"><button data-page="home">Index</button><button data-page="work">Portfolio</button><button data-page="about">Studio</button><button data-page="contact">Contact</button><span>Journal</span></div></div>
+    <div><div class="footer-col-hd">Elsewhere</div><div class="footer-col-links"><span>Are.na</span><span>Read.cv</span><span>Instagram</span><span>Dribbble</span></div></div>
+    <div><div class="footer-col-hd">The studio</div><div class="footer-col-links"><span>hello@aviato.studio</span><span>+1 415 555 0144</span><span>San Francisco</span><span>Lisbon</span></div></div>
+  </div>
+  <div class="footer-bot"><span>© Aviato Studio · 2026</span><span>Set in Inter</span></div>
+</footer>
+
+<!-- Chat widget -->
+<div class="chat-widget" id="chatWidget" hidden>
+  <div class="cw-header">
+    <div class="cw-user">
+      <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" class="cw-avatar" alt="Nina"/>
+      <div><div class="cw-name">Nina at Aviato</div><div class="cw-status"><span class="dot-xs"></span>Online</div></div>
+    </div>
+    <button class="cw-close" id="cwClose">×</button>
+  </div>
+  <div class="cw-msgs" id="cwMsgs">
+    <div class="cw-msg"><div class="cw-bubble">Hi 👋 I'm Nina, one of the principals. What are you working on?<div class="cw-time">09:14</div></div></div>
+  </div>
+  <div class="cw-input-row">
+    <input type="text" id="cwInput" class="cw-input" placeholder="Write a message…"/>
+    <button class="cw-send" id="cwSend">Send</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Page navigation
+  function go(page){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    var t=document.getElementById('page-'+page);
+    if(t){t.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+  }
+  document.addEventListener('click',function(e){
+    var el=e.target.closest('[data-page]');
+    if(el){e.preventDefault();go(el.dataset.page);}
+  });
+
+  // Callback form
+  var btnCb=document.getElementById('btnCallback'),
+      cbForm=document.getElementById('cbForm'),
+      cbClose=document.getElementById('cbClose'),
+      cbPhone=document.getElementById('cbPhone'),
+      cbWhen=document.getElementById('cbWhen'),
+      cbSubmit=document.getElementById('cbSubmit'),
+      cbSuccess=document.getElementById('cbSuccess');
+  if(btnCb){
+    btnCb.addEventListener('click',function(){cbForm.hidden=false;btnCb.hidden=true;});
+    cbClose.addEventListener('click',function(){cbForm.hidden=true;btnCb.hidden=false;cbSuccess.hidden=true;});
+    cbPhone.addEventListener('input',function(){cbSubmit.disabled=!cbPhone.value.trim();});
+    cbSubmit.addEventListener('click',function(){
+      if(!cbPhone.value.trim())return;
+      cbForm.hidden=true;cbSuccess.hidden=false;
+      cbSuccess.textContent='✓ Got it. We\'ll call '+cbPhone.value+' '+cbWhen.value.toLowerCase()+'.';
+    });
+  }
+
+  // Chat
+  var btnChat=document.getElementById('btnChat'),
+      chatWidget=document.getElementById('chatWidget'),
+      cwClose=document.getElementById('cwClose'),
+      cwMsgs=document.getElementById('cwMsgs'),
+      cwInput=document.getElementById('cwInput'),
+      cwSend=document.getElementById('cwSend');
+  function pad(n){return String(n).padStart(2,'0');}
+  function time(){var d=new Date();return pad(d.getHours())+':'+pad(d.getMinutes());}
+  function addMsg(text,me){
+    var wrap=document.createElement('div');wrap.className='cw-msg'+(me?' me':'');
+    var bub=document.createElement('div');bub.className='cw-bubble';
+    bub.textContent=text;
+    var t=document.createElement('div');t.className='cw-time';t.textContent=time();
+    bub.appendChild(t);wrap.appendChild(bub);cwMsgs.appendChild(wrap);
+    cwMsgs.scrollTop=cwMsgs.scrollHeight;
+  }
+  if(btnChat){
+    btnChat.addEventListener('click',function(){chatWidget.hidden=false;cwInput.focus();});
+    cwClose.addEventListener('click',function(){chatWidget.hidden=true;});
+    function send(){
+      var t=cwInput.value.trim();if(!t)return;
+      addMsg(t,true);cwInput.value='';
+      setTimeout(function(){addMsg("Got it — let me ping Jordan and we'll send a quick reply within a few minutes.",false);},1200);
+    }
+    cwSend.addEventListener('click',send);
+    cwInput.addEventListener('keydown',function(e){if(e.key==='Enter')send();});
+  }
+})();
+</script>
+</body>
+</html>
